@@ -1,7 +1,7 @@
 (load "grammar.lisp")
+(load "utilities.lisp")
 
-(defun concat (&rest args) 
-  (apply 'concatenate 'string args))
+
 
 (defun addWeightsToRule (rule initialWeight grammar)
   (if (null rule) '()
@@ -62,12 +62,6 @@
   (let* ((rule (nth rulenum (getGrammarCategory grammar type))))
     (list type rulenum (buildRuleTree rule grammar))))
 
-(defun randElem (l)
-  (nth (random (length l)) l))
-
-(defun range (start end)
-  (if (< start end) (cons start (range (+ 1 start) end))
-    '()))
 
 (defmacro parseTree (tree baseReturn symbol string list)
   `(if (null ,tree) ,baseReturn
@@ -171,9 +165,6 @@
 	       (if (> nodes nodeNum) (getChangingRule next nodeNum)
 		 (getChangingRule (cdr progTree) (- nodeNum nodes))))))
 
-(defun random>0 (n)
-  (let ( (x (random n)))
-    (if (= x 0) (random>0 n) x)))
 
 (defun createOffspring (prog1 prog2 grammar)
   (let* ( (nodes1 (numNodes prog1))
@@ -310,8 +301,6 @@
 	    (newNext (if (and (listp next) (eq pos 0)) (updateWeight next num func val) next)))
       (cons newNext (updateRule (cdr section) newPos num func val)))))
 
-(defun >0 (val)
-  (if (<= val 0) 1 val))
 
 (defun updateWeight (weights num func val)
   (if (null weights) '()
