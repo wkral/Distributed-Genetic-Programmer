@@ -4,9 +4,10 @@
 (defun randElem (l)
   (nth (random (length l)) l))
 
-(defun range (start end)
-  (if (< start end) (cons start (range (+ 1 start) end))
-    '()))
+(defun range (start &optional (end '()))
+  (if (null end) (range 0 start)
+    (if (< start end) (cons start (range (+ 1 start) end))
+      '())))
 
 (defun random>0 (n)
   (let ( (x (random n)))
@@ -14,3 +15,9 @@
 
 (defun >0 (val)
   (if (<= val 0) 1 val))
+
+(defun selectItem (group index)
+  (if (null group) '()
+    (if (< index (caar group)) (car group)
+      (selectItem (cdr group) (- index (caar group))))))
+
